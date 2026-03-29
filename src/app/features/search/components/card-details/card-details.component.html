@@ -1,0 +1,104 @@
+<article
+  class="detail rounded-md bg-card"
+  [class]="character().status.toLowerCase()"
+>
+  <div class="detail-body">
+    <div class="image-container relative">
+      @if (imageState() === "loading") {
+        <div class="skeleton absolute inset-0"></div>
+      }
+      @if (imageState() === "failed") {
+        <div
+          class="placeholder absolute inset-0 flex items-center justify-center"
+        >
+          <i class="bi bi-image text-48 opacity-50" aria-hidden="true"></i>
+        </div>
+      }
+      <img
+        class="w-full"
+        [class.opacity-0]="imageState() !== 'loaded'"
+        [imageLoader]="character().image"
+        [alt]="character().name"
+        (stateChange)="onImageStateChange($event)"
+      />
+    </div>
+
+    <div class="p-24">
+      <div class="flex items-center justify-between mb-8">
+        <h1 class="font-display text-portal text-32 m-0 truncate">
+          {{ character().name }}
+        </h1>
+        <button
+          type="button"
+          class="favorite-btn flex items-center justify-center cursor-pointer rounded-full"
+          [class.active]="isFavorite()"
+          (click)="toggleFavorite()"
+          [attr.aria-label]="
+            isFavorite() ? 'Remove from favorites' : 'Add to favorites'
+          "
+          [attr.aria-pressed]="isFavorite()"
+        >
+          <i
+            [class]="isFavorite() ? 'bi bi-heart-fill' : 'bi bi-heart'"
+            class="text-20"
+          ></i>
+        </button>
+      </div>
+
+      <span
+        class="status-badge inline-block px-12 py-4 rounded-full font-bold text-white mb-16"
+        [class]="character().status.toLowerCase()"
+      >
+        {{ character().status }}
+      </span>
+
+      <dl class="flex flex-col gap-12">
+        <div class="flex flex-col gap-2">
+          <dt class="text-10 text-muted uppercase">Species</dt>
+          <dd class="text-16 text-primary">{{ character().species }}</dd>
+        </div>
+
+        @if (character().type) {
+          <div class="flex flex-col gap-2">
+            <dt class="text-10 text-muted uppercase">Type</dt>
+            <dd class="text-16 text-primary">{{ character().type }}</dd>
+          </div>
+        }
+
+        <div class="flex flex-col gap-2">
+          <dt class="text-10 text-muted uppercase">Gender</dt>
+          <dd class="text-16 text-primary">{{ character().gender }}</dd>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <dt class="text-10 text-muted uppercase">Origin</dt>
+          <dd class="text-16 text-primary">{{ character().origin.name }}</dd>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <dt class="text-10 text-muted uppercase">Last Known Location</dt>
+          <dd class="text-16 text-primary">{{ character().location.name }}</dd>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <dt class="text-10 text-muted uppercase">Episodes</dt>
+          <dd class="text-16 text-portal font-semibold">
+            {{ character().episode.length }} appearances
+          </dd>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <dt class="text-10 text-muted uppercase">Last Seen In</dt>
+          @if (lastEpisode(); as episode) {
+            <dd class="text-16 text-primary">{{ episode.name }}</dd>
+            <dd class="text-12 text-muted">
+              {{ episode.episode }} • {{ episode.air_date }}
+            </dd>
+          } @else {
+            <dd class="text-muted">Loading...</dd>
+          }
+        </div>
+      </dl>
+    </div>
+  </div>
+</article>

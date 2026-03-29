@@ -1,0 +1,41 @@
+<div
+  class="flex flex-col items-center gap-16 p-24"
+  role="toolbar"
+  aria-label="Search and filters"
+>
+  <div class="flex justify-center flex-wrap gap-16">
+    <search-box
+      label="Search"
+      placeholder="Search characters..."
+      [pattern]="searchPattern"
+      errorMessage="Invalid characters"
+      (search)="onSearchChange($event)"
+    />
+
+    <div
+      class="flex justify-center gap-12"
+      role="group"
+      aria-label="Filter options"
+    >
+      <filter-dropdown
+        [options]="statusOptions"
+        label="Status"
+        (change)="onStatusChange($event)"
+      />
+      <filter-dropdown
+        [options]="speciesOptions"
+        label="Species"
+        (change)="onSpeciesChange($event)"
+      />
+      <filter-dropdown
+        [options]="genderOptions"
+        label="Gender"
+        (change)="onGenderChange($event)"
+      />
+    </div>
+  </div>
+
+  <span class="text-muted" role="status" aria-live="polite"
+    >{{ totalCount() }} characters</span
+  >
+</div>

@@ -1,0 +1,148 @@
+<div class="toolbar-wrapper" [class.toolbar-hidden]="!isToolbarVisible()">
+  <search-toolbar
+    [totalCount]="totalCount()"
+    (filterChange)="onFilterChange($event)"
+  ></search-toolbar>
+</div>
+
+@switch (state().status) {
+  @case ("loading") {
+    <div class="flex flex-col items-center justify-center pt-120 gap-16">
+      <loader size="lg" ariaLabel="Searching characters" />
+      @if (retryCountdown(); as countdown) {
+        <p class="text-primary font-bold text-center px-24">
+          Portal gun recharging... {{ countdown }}s
+        </p>
+      } @else {
+        <p class="text-primary font-bold">Searching...</p>
+      }
+    </div>
+  }
+
+  @case ("empty") {
+    <div class="flex flex-col items-center justify-center pt-120" role="status">
+      <i class="bi bi-inbox icon-80 mb-24" aria-hidden="true"></i>
+      <p class="text-primary font-bold mb-8">No characters found</p>
+      <p class="text-secondary">Try adjusting your search or filters</p>
+    </div>
+  }
+
+  @case ("success") {
+    <div class="content-wrapper">
+      <div class="flex flex-wrap justify-center pt-20 gap-20">
+        @for (character of characterList(); track character.id) {
+          <card
+            [character]="character"
+            (cardClick)="openCharacterDetails($event)"
+          />
+        }
+
+        @if (isLoading() && !retryCountdown() && !searchError()) {
+          @for (i of skeletonCards; track i) {
+            <skeleton-card />
+          }
+        }
+      </div>
+    </div>
+
+    @if (retryCountdown(); as countdown) {
+      <div class="flex items-center justify-center p-24">
+        <loader
+          size="sm"
+          [ariaLabel]="'Retrying in ' + countdown + ' seconds'"
+        />
+        <p class="ml-12 font-bold text-secondary">
+          Portal gun recharging... {{ countdown }}s
+        </p>
+      </div>
+    } @else if (searchError(); as error) {
+      <div
+        class="flex items-center justify-center gap-12 p-24"
+        role="alert"
+        aria-live="assertive"
+      >
+        <i
+          [class]="getErrorIcon(error)"
+          class="icon-20 text-error"
+          aria-hidden="true"
+        ></i>
+        <p class="text-secondary font-bold">{{ error.message }}</p>
+        @if (error.retryable) {
+          <button
+            type="button"
+            class="btn-danger-outline"
+            (click)="retryPageSearch()"
+          >
+            Try again
+          </button>
+        }
+      </div>
+    } @else if (hasMore() && !isLoading()) {
+      <div class="flex justify-center p-24">
+        <button class="btn-secondary" type="button" (click)="loadNextPage()">
+          Load More
+        </button>
+      </div>
+    }
+  }
+}
+
+@if (isCardDetailsVisible()) {
+  <div
+    (keydown.escape)="closeCharacterDetails()"
+    class="dialog-overlay bg-black-transparent inset-0 fixed z-50 flex items-center justify-center"
+    role="dialog"
+    aria-label="Character details"
+    (click)="closeCharacterDetails()"
+  >
+    @if (isLoadingDetails()) {
+      <div class="z-10">
+        <loader size="lg" ariaLabel="Loading character details" />
+      </div>
+    } @else if (detailsError(); as error) {
+      <div class="relative z-10" (click)="$event.stopPropagation()">
+        <button
+          type="button"
+          class="btn-icon btn-icon-danger close-btn absolute z-20"
+          (click)="closeCharacterDetails()"
+          aria-label="Close dialog"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+        <div
+          class="flex flex-col items-center justify-center p-32 bg-card rounded-md"
+          role="alert"
+          aria-live="assertive"
+        >
+          <i
+            [class]="getErrorIcon(error)"
+            class="icon-48 mb-16 text-error"
+            aria-hidden="true"
+          ></i>
+          <p class="text-secondary font-bold mb-16">{{ error.message }}</p>
+          @if (error.retryable) {
+            <button
+              type="button"
+              class="btn-secondary"
+              (click)="retryDetails()"
+            >
+              Try again
+            </button>
+          }
+        </div>
+      </div>
+    } @else if (selectedCharacter(); as character) {
+      <div class="relative z-10" (click)="$event.stopPropagation()">
+        <button
+          type="button"
+          class="btn-icon btn-icon-danger close-btn absolute z-20"
+          (click)="closeCharacterDetails()"
+          aria-label="Close dialog"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+        <card-details [character]="character" [lastEpisode]="lastEpisode()" />
+      </div>
+    }
+  </div>
+}

@@ -1,0 +1,28 @@
+:host {
+  display: block;
+}
+
+.content-wrapper {
+  max-width: 1130px;
+  margin: 0 auto;
+}
+
+.compact-error {
+  min-width: 280px;
+  max-width: 360px;
+}
+
+.dialog-overlay {
+  animation: fadeIn 0.2s ease;
+  overscroll-behavior: contain;
+  overflow: hidden;
+}
+
+.dialog-content {
+  animation: slideUp 0.3s ease;
+}
+
+.close-btn {
+  top: -12px;
+  right: -12px;
+}

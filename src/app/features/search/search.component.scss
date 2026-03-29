@@ -1,0 +1,33 @@
+:host {
+  display: block;
+}
+
+.toolbar-wrapper {
+  position: sticky;
+  top: 73px;
+  z-index: 40;
+  width: 100%;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+  transition: transform 0.3s ease;
+
+  &.toolbar-hidden {
+    transform: translateY(-100%);
+  }
+}
+
+.content-wrapper {
+  max-width: 1130px;
+  margin: 0 auto;
+}
+
+.dialog-overlay {
+  animation: fadeIn 0.2s ease;
+  overscroll-behavior: contain;
+  overflow: hidden;
+}
+
+.close-btn {
+  top: -12px;
+  right: -12px;
+}

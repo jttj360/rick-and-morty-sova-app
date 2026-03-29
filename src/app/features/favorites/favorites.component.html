@@ -1,0 +1,91 @@
+<div class="flex flex-wrap pt-32 px-24 pb-24 gap-20 justify-center">
+  @if (favorites().length === 0) {
+    <div
+      class="flex flex-col items-center justify-center text-center p-48 min-h-300"
+      role="status"
+    >
+      <i class="bi bi-heart icon-80 text-muted mb-24" aria-hidden="true"></i>
+      <h3 class="text-20 font-semibold text-primary m-0 mb-8">
+        No favorites yet
+      </h3>
+      <p class="text-secondary m-0">
+        Start exploring and heart the characters you love
+      </p>
+    </div>
+  } @else {
+    @for (character of favorites(); track character.id) {
+      <card
+        [character]="character"
+        (cardClick)="openCharacterDetails($event)"
+      />
+    }
+  }
+</div>
+
+@if (isCardDetailsVisible()) {
+  <div
+    (keydown.escape)="closeCharacterDetails()"
+    class="dialog-overlay fixed inset-0 z-50 flex items-center justify-center p-24"
+    role="dialog"
+    aria-label="Character details"
+    (click)="closeCharacterDetails()"
+  >
+    <div class="absolute inset-0 bg-black opacity-75" aria-hidden="true"></div>
+
+    @if (isLoadingDetails()) {
+      <div class="relative z-10">
+        <loader size="lg" ariaLabel="Loading character details" />
+      </div>
+    } @else if (detailsError(); as error) {
+      <div
+        class="dialog-content relative z-10"
+        (click)="$event.stopPropagation()"
+      >
+        <button
+          type="button"
+          class="btn-icon btn-icon-danger close-btn absolute z-20"
+          (click)="closeCharacterDetails()"
+          aria-label="Close dialog"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+        <div
+          class="compact-error flex flex-col items-center justify-center text-center p-32 bg-card rounded-md"
+          role="alert"
+          aria-live="assertive"
+        >
+          <div class="text-muted opacity-50 mb-16">
+            <i class="bi bi-exclamation-circle icon-48" aria-hidden="true"></i>
+          </div>
+          <p class="text-secondary font-normal m-0 mb-16 max-w-sm">
+            {{ error.message }}
+          </p>
+          @if (error.retryable) {
+            <button
+              type="button"
+              class="btn-secondary"
+              (click)="retryDetails()"
+            >
+              Try again
+            </button>
+          }
+        </div>
+      </div>
+    } @else if (selectedCharacter(); as character) {
+      <div
+        class="dialog-content relative z-10"
+        (click)="$event.stopPropagation()"
+      >
+        <button
+          type="button"
+          class="btn-icon btn-icon-danger close-btn absolute z-20"
+          (click)="closeCharacterDetails()"
+          aria-label="Close dialog"
+        >
+          <i class="bi bi-x-lg" aria-hidden="true"></i>
+        </button>
+        <card-details [character]="character" [lastEpisode]="lastEpisode()" />
+      </div>
+    }
+  </div>
+}

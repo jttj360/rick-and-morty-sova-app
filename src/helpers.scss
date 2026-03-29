@@ -1,0 +1,407 @@
+$spacings: (0, 2, 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 120);
+
+@each $size in $spacings {
+  .p-#{$size} {
+    padding: #{$size}px;
+  }
+  .pt-#{$size} {
+    padding-top: #{$size}px;
+  }
+  .pb-#{$size} {
+    padding-bottom: #{$size}px;
+  }
+  .px-#{$size} {
+    padding-left: #{$size}px;
+    padding-right: #{$size}px;
+  }
+  .py-#{$size} {
+    padding-top: #{$size}px;
+    padding-bottom: #{$size}px;
+  }
+
+  .m-#{$size} {
+    margin: #{$size}px;
+  }
+  .mb-#{$size} {
+    margin-bottom: #{$size}px;
+  }
+  .ml-#{$size} {
+    margin-left: #{$size}px;
+  }
+
+  .gap-#{$size} {
+    gap: #{$size}px;
+  }
+}
+
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.inline-block {
+  display: inline-block;
+}
+.hidden {
+  display: none;
+}
+.flex {
+  display: flex;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+.flex-col {
+  flex-direction: column;
+}
+.flex-wrap {
+  flex-wrap: wrap;
+}
+.flex-1 {
+  flex: 1;
+}
+
+.justify-start {
+  justify-content: flex-start;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+
+.items-start {
+  align-items: flex-start;
+}
+.items-center {
+  align-items: center;
+}
+.items-end {
+  align-items: flex-end;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.w-8 {
+  width: 8px;
+}
+.w-full {
+  width: 100%;
+}
+.h-8 {
+  height: 8px;
+}
+.h-30 {
+  height: 30px;
+}
+.h-screen {
+  height: 100vh;
+}
+.min-h-screen {
+  min-height: 100vh;
+}
+.min-h-300 {
+  min-height: 300px;
+}
+.max-w-sm {
+  max-width: 24rem;
+}
+.max-w-lg {
+  max-width: 32rem;
+}
+.aspect-ratio-1 {
+  aspect-ratio: 1;
+}
+
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.fixed {
+  position: fixed;
+}
+.inset-0 {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.z-10 {
+  z-index: 10;
+}
+.z-20 {
+  z-index: 20;
+}
+.z-50 {
+  z-index: 50;
+}
+
+$font-sizes: (10, 12, 16, 18, 20, 32, 48);
+
+@each $size in $font-sizes {
+  .text-#{$size} {
+    font-size: #{$size}px;
+  }
+}
+
+.text-100 {
+  font-size: 100px;
+}
+
+.font-normal {
+  font-weight: 400;
+}
+.font-medium {
+  font-weight: 500;
+}
+.font-semibold {
+  font-weight: 600;
+}
+.font-bold {
+  font-weight: 700;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-white {
+  color: #ffffff;
+}
+.bg-black {
+  background-color: #000000;
+}
+.bg-black-transparent {
+  background-color: rgb(0 0 0 / 75%);
+}
+
+.rounded {
+  border-radius: 8px;
+}
+.rounded-md {
+  border-radius: 12px;
+}
+.rounded-full {
+  border-radius: 9999px;
+}
+
+.shadow-lg {
+  box-shadow:
+    0 10px 15px rgba(0, 0, 0, 0.1),
+    0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.opacity-0 {
+  opacity: 0;
+}
+.opacity-50 {
+  opacity: 0.5;
+}
+.opacity-75 {
+  opacity: 0.75;
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-body {
+  font-family: var(--font-body);
+}
+
+.text-primary {
+  color: var(--text-primary);
+}
+.text-secondary {
+  color: var(--text-secondary);
+}
+.text-muted {
+  color: var(--text-muted);
+}
+.text-portal {
+  color: var(--portal-green);
+}
+.text-error {
+  color: var(--error-red);
+}
+
+.bg-primary {
+  background: var(--bg-primary);
+}
+.bg-secondary {
+  background: var(--bg-secondary);
+}
+.bg-card {
+  background: var(--bg-card);
+}
+
+%btn-base {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  min-height: 44px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+
+  &:focus-visible {
+    outline: 2px solid var(--portal-green);
+    outline-offset: 2px;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+    transform: none !important;
+  }
+}
+
+.btn-primary {
+  @extend %btn-base;
+  padding: 12px 32px;
+  border: none;
+  background: var(--portal-green);
+  color: #1a1a2e;
+
+  &:hover:not(:disabled) {
+    background: var(--toxic-green);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--glow-color);
+  }
+}
+
+.btn-secondary {
+  @extend %btn-base;
+  padding: 12px 32px;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 2px solid var(--portal-green);
+
+  &:hover:not(:disabled) {
+    background: var(--portal-green);
+    color: #1a1a2e;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px var(--glow-color);
+  }
+}
+
+.btn-danger-outline {
+  @extend %btn-base;
+  padding: 8px 16px;
+  font-size: 14px;
+  background: transparent;
+  color: var(--error-red);
+  border: 1px solid var(--error-red);
+
+  &:hover:not(:disabled) {
+    background: var(--error-red);
+    color: var(--text-white);
+  }
+}
+
+.btn-icon {
+  @extend %btn-base;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-height: 36px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--text-primary);
+  box-shadow: 0 2px 8px var(--shadow-color);
+
+  &:hover:not(:disabled) {
+    background: var(--bg-secondary);
+  }
+
+  &.btn-icon-danger:hover:not(:disabled) {
+    background: var(--dead-red);
+    color: #fff;
+  }
+}
+
+.btn-icon-outline {
+  @extend %btn-base;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+  border: 2px solid var(--portal-green);
+  border-radius: 50%;
+  background: var(--bg-card);
+  color: var(--text-primary);
+
+  &:hover:not(:disabled) {
+    background: var(--portal-green);
+    color: #1a1a2e;
+    transform: scale(1.05);
+  }
+}
+
+a {
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.container {
+  width: 100%;
+  max-width: 1290px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.arrow {
+  font-size: 10px;
+  transition: transform 0.2s ease;
+  &.open {
+    transform: rotate(180deg);
+  }
+}
+
+$icon-sizes: (20, 48, 80);
+
+@each $size in $icon-sizes {
+  .icon-#{$size} {
+    font-size: #{$size}px;
+    line-height: 1;
+  }
+}

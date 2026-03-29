@@ -1,0 +1,18 @@
+import { TestBed } from "@angular/core/testing";
+import { provideRouter } from "@angular/router";
+import { HeaderComponent } from "./header.component";
+import { ThemeService } from "@features/theme";
+
+describe("HeaderComponent", () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [HeaderComponent],
+      providers: [provideRouter([]), ThemeService],
+    }).compileComponents();
+  });
+
+  it("should create", () => {
+    const fixture = TestBed.createComponent(HeaderComponent);
+    expect(fixture.componentInstance).toBeTruthy();
+  });
+});

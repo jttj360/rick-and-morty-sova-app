@@ -1,0 +1,59 @@
+<div class="relative flex flex-col gap-4">
+  <label [id]="dropdownId + '-label'" class="text-12 text-muted uppercase">{{
+    label()
+  }}</label>
+
+  <button
+    type="button"
+    class="dropdown flex items-center justify-between cursor-pointer"
+    [attr.aria-expanded]="isOpen()"
+    (click)="toggle()"
+    (keydown.arrowdown)="onArrowDown($event)"
+    (keydown.arrowup)="onArrowUp($event)"
+    (keydown.enter)="isOpen() ? onEnter() : toggle()"
+    (keydown.escape)="close()"
+    (keydown.tab)="close()"
+  >
+    <span class="truncate" [class.text-muted]="!selectedValue()">
+      {{ selectedValue() || "All" }}
+    </span>
+    <span class="arrow text-portal" [class.open]="isOpen()" aria-hidden="true"
+      >▼</span
+    >
+  </button>
+
+  @if (isOpen()) {
+    <div
+      [id]="dropdownId"
+      class="menu absolute w-full rounded-md shadow-lg z-50"
+      role="listbox"
+    >
+      <div
+        class="menu-item p-12 cursor-pointer"
+        role="option"
+        [attr.aria-selected]="!selectedValue()"
+        [class.active]="!selectedValue()"
+        [class.focused]="focusedIndex() === 0"
+        (click)="clear()"
+        (keydown.enter)="clear()"
+        (keydown.escape)="close()"
+      >
+        All
+      </div>
+      @for (option of options(); track option; let i = $index) {
+        <div
+          class="menu-item p-12 cursor-pointer"
+          role="option"
+          [attr.aria-selected]="selectedValue() === option"
+          [class.active]="selectedValue() === option"
+          [class.focused]="focusedIndex() === i + 1"
+          (click)="select(option)"
+          (keydown.enter)="select(option)"
+          (keydown.escape)="close()"
+        >
+          {{ option }}
+        </div>
+      }
+    </div>
+  }
+</div>

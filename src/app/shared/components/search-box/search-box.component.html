@@ -1,0 +1,19 @@
+<div class="flex flex-col gap-4" role="search">
+  @if (label()) {
+    <label class="text-12 text-muted uppercase">{{ label() }}</label>
+  }
+  <input
+    class="input"
+    [class.invalid]="searchControl.invalid && searchControl.dirty"
+    type="search"
+    [placeholder]="placeholder()"
+    [formControl]="searchControl"
+    [attr.aria-label]="label() || placeholder()"
+    [attr.aria-invalid]="searchControl.invalid && searchControl.dirty"
+  />
+  @if (searchControl.invalid && searchControl.dirty) {
+    <span id="search-error" class="error text-12" role="alert">
+      {{ errorMessage() }}
+    </span>
+  }
+</div>
